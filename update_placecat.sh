@@ -18,14 +18,19 @@ export NODE_OPTIONS="--max-old-space-size=512"
 echo "npm 패키지 설치 중..."
 npm install || npm install --no-optional
 
-# PM2 프로세스 상태 확인
+# 빌드 실행
+echo "프로젝트 빌드 중..."
+npm run build
+
+# PM2에서 기존 placecat 프로세스가 여러 개 있으면 모두 제거
 if pm2 list | grep -q "placecat"; then
-  echo "placecat이 이미 실행 중입니다. 재시작합니다..."
-  pm2 restart placecat
-else
-  echo "placecat을 시작합니다..."
-  pm2 start npm --name "placecat" -- start
+  echo "기존 placecat 프로세스를 제거합니다..."
+  pm2 delete placecat
 fi
+
+# 새로운 플레이스캣 프로세스 시작
+echo "placecat을 시작합니다..."
+pm2 start npm --name "placecat" -- start
 
 # 성공 메시지 출력
 echo "placecat 업데이트 및 재시작이 완료되었습니다." 
