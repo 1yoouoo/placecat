@@ -1,16 +1,22 @@
 #!/bin/bash
-
-# placecat 디렉토리로 이동
-cd ~/placecat/placecat
-
 # 변경사항 충돌 방지를 위한 현재 변경사항 저장
 git stash
 
 # 최신 코드 가져오기
 git pull
 
-# 의존성 패키지 설치
-npm install
+# PM2 설치 확인 및 설치
+if ! command -v pm2 &> /dev/null; then
+  echo "pm2가 설치되어 있지 않습니다. 설치를 진행합니다..."
+  npm install -g pm2
+fi
+
+# 메모리 부족 문제 해결을 위한 NODE_OPTIONS 설정
+export NODE_OPTIONS="--max-old-space-size=512"
+
+# 의존성 패키지 설치 (실패시 --no-optional 옵션 시도)
+echo "npm 패키지 설치 중..."
+npm install || npm install --no-optional
 
 # PM2 프로세스 상태 확인
 if pm2 list | grep -q "placecat"; then
