@@ -6,9 +6,10 @@ import { MAX_WIDTH, MAX_HEIGHT, SUPPORTED_FORMATS } from '@/app/lib/validation';
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: { code?: string; message?: string; requested?: string };
+  searchParams: Promise<{ code?: string; message?: string; requested?: string }>;
 }): Promise<Metadata> {
-  const code = searchParams.code || '400';
+  const params = await searchParams;
+  const code = params.code || '400';
 
   return {
     title: `Error ${code} - placecat`,
@@ -16,15 +17,16 @@ export async function generateMetadata({
   };
 }
 
-export default function ErrorPage({
+export default async function ErrorPage({
   searchParams,
 }: {
-  searchParams: { code?: string; message?: string; requested?: string; format?: string };
+  searchParams: Promise<{ code?: string; message?: string; requested?: string; format?: string }>;
 }) {
-  const code = searchParams.code || '400';
-  const message = searchParams.message || 'An unknown error occurred.';
-  const requested = searchParams.requested || '';
-  const format = searchParams.format || '';
+  const params = await searchParams;
+  const code = params.code || '400';
+  const message = params.message || 'An unknown error occurred.';
+  const requested = params.requested || '';
+  const format = params.format || '';
 
   // Suggest solution based on error type
   let suggestion = '';
