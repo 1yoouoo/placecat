@@ -1,7 +1,9 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    domains: ['placecat.sgp1.cdn.digitaloceanspaces.com'],
+  },
 };
 
 export default nextConfig;

@@ -16,7 +16,7 @@ export default function RootLayout({
       <head>
         <link rel="preload" href="/fonts/Pretendard-Regular.otf" as="font" type="font/otf" crossOrigin="anonymous" />
       </head>
-      <body className="font-pretendard">{children}</body>
+      <body className="font-pretendard bg-slate-900">{children}</body>
     </html>
   );
 }
