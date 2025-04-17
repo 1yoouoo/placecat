@@ -29,9 +29,9 @@ const MarqueeList = () => {
             key={`row1-${index}`}
             src={img}
             alt={`Cat ${index + 1}`}
-            width={300}
-            height={300}
-            className="mx-2"
+            width={400}
+            height={400}
+            className="mx-2 w-[400px] h-[400px]"
             priority
           />
         ))}
@@ -44,9 +44,9 @@ const MarqueeList = () => {
             key={`row2-${index}`}
             src={img}
             alt={`Cat ${index + 7}`}
-            width={300}
-            height={300}
-            className="mx-2"
+            width={400}
+            height={400}
+            className="mx-2 w-[400px] h-[400px]"
             priority
           />
         ))}
@@ -59,9 +59,9 @@ const MarqueeList = () => {
             key={`row3-${index}`}
             src={img}
             alt={`Cat ${index + 13}`}
-            width={300}
-            height={300}
-            className="mx-2"
+            width={400}
+            height={400}
+            className="mx-2 w-[400px] h-[400px]"
             priority
           />
         ))}
