@@ -22,15 +22,17 @@ npm install || npm install --no-optional
 echo "프로젝트 빌드 중..."
 npm run build
 
-# PM2에서 기존 placecat 프로세스가 여러 개 있으면 모두 제거
+# PM2 프로세스 상태 확인 및 무중단 배포
 if pm2 list | grep -q "placecat"; then
-  echo "기존 placecat 프로세스를 제거합니다..."
-  pm2 delete placecat
+  echo "placecat을 무중단 재배포합니다..."
+  pm2 reload placecat
+else
+  echo "placecat을 시작합니다..."
+  pm2 start npm --name "placecat" -- start
 fi
 
-# 새로운 플레이스캣 프로세스 시작
-echo "placecat을 시작합니다..."
-pm2 start npm --name "placecat" -- start
+# 인스턴스 수를 1개로 유지
+pm2 scale placecat 1
 
 # 성공 메시지 출력
 echo "placecat 업데이트 및 재시작이 완료되었습니다." 
