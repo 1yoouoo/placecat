@@ -56,7 +56,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="max-w-3xl mx-auto px-6 text-center">
+          {/* <div className="max-w-3xl mx-auto px-6 text-center">
             <h2 className="text-3xl font-bold mb-6 text-center text-gray-100">Text</h2>
             <div className="space-y-12">
               <div className="flex flex-col items-center justify-center">
@@ -88,7 +88,7 @@ const Home = () => {
                 </RippleButton>
               </div>
             </div>
-          </div>
+          </div> */}
         </section>
 
         <section className="flex flex-col items-center justify-center gap-24 mt-30 mb-100">

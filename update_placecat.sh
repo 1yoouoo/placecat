@@ -11,6 +11,8 @@ if ! command -v pm2 &> /dev/null; then
   npm install -g pm2
 fi
 
+nvm use 18
+
 # 메모리 부족 문제 해결을 위한 NODE_OPTIONS 설정
 export NODE_OPTIONS="--max-old-space-size=512"
 
