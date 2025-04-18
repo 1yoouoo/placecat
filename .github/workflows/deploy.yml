@@ -1,4 +1,4 @@
-name: Deploy to Production
+name: Deploy to DigitalOcean
 
 on:
   push:
@@ -23,8 +23,18 @@ jobs:
       
     - name: Build
       run: npm run build
-      
-    - name: Deploy
-      # 여기에 실제 배포 단계를 추가해야 합니다
-      # 예: Vercel, Netlify, AWS 등
-      run: echo "배포를 위한 추가 정보가 필요합니다"
+    
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.8.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    
+    - name: Add host key
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H 188.166.209.37 >> ~/.ssh/known_hosts
+    
+    - name: Deploy to DigitalOcean
+      run: |
+        rsync -avz --delete --exclude='.git' --exclude='node_modules' ./ root@188.166.209.37:/root/placecat/
+        ssh root@188.166.209.37 'cd /root/placecat && npm ci && npm run build && (pm2 restart placecat || pm2 start npm --name "placecat" -- start)'
