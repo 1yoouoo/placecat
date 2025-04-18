@@ -36,34 +36,31 @@ jobs:
         ssh-keyscan -H 188.166.209.37 >> ~/.ssh/known_hosts
         ssh -v root@188.166.209.37 'echo "SSH connection successful"'
     
-    - name: Upgrade Node.js on remote server
+    - name: Prepare remote server directory
       run: |
-        echo "Upgrading Node.js on remote server..."
-        ssh root@188.166.209.37 'export NVM_DIR="$HOME/.nvm" && 
-        if [ ! -d "$NVM_DIR" ]; then
-          echo "Installing NVM..."
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-        else
-          echo "NVM is already installed"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-        fi &&
-        nvm install 20 &&
-        nvm use 20 &&
-        node -v &&
-        npm -v'
+        ssh root@188.166.209.37 'mkdir -p /root/placecat'
     
     - name: Deploy to DigitalOcean
       run: |
         echo "Starting deployment with rsync..."
-        rsync -avz --delete --exclude='.git' --exclude='node_modules' ./ root@188.166.209.37:/root/placecat/
+        # 필수 파일 및 빌드된 결과물만 전송
+        rsync -avz --delete \
+          --include=".next/***" \
+          --include="public/***" \
+          --include="package.json" \
+          --include="package-lock.json" \
+          --include="next.config.ts" \
+          --include="next-env.d.ts" \
+          --include="tsconfig.json" \
+          --exclude="node_modules" \
+          --exclude=".git" \
+          --exclude="*" \
+          ./ root@188.166.209.37:/root/placecat/
         
-        echo "Running commands on remote server..."
+        echo "Starting application on remote server..."
         ssh root@188.166.209.37 'export NVM_DIR="$HOME/.nvm" && 
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && 
         nvm use 20 && 
         cd /root/placecat && 
-        npm ci && 
-        npm run build && 
+        npm ci --only=production && 
         (pm2 restart placecat || pm2 start npm --name "placecat" -- start)'
