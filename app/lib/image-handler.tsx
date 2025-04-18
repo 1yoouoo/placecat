@@ -182,13 +182,13 @@ export async function renderImageResponse(
                 wordBreak: 'keep-all',
                 whiteSpace: 'nowrap',
                 padding,
-                borderRadius: `${Math.min(10, width * 0.02)}px`,
                 maxWidth: '95%',
                 lineHeight: '1.3',
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
+                alignItems: 'center',
                 maxHeight: `${height * 0.9}px`,
               }}
             >

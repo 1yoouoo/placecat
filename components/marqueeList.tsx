@@ -28,7 +28,7 @@ const MarqueeList = () => {
             alt={`Cat ${index + 1}`}
             width={400}
             height={400}
-            className="mx-2 w-[400px] h-[400px]"
+            className="mx-2 w-[400px] h-[400px] rounded-lg"
             priority
           />
         ))}
@@ -42,7 +42,7 @@ const MarqueeList = () => {
             alt={`Cat ${index + 7}`}
             width={400}
             height={400}
-            className="mx-2 w-[400px] h-[400px]"
+            className="mx-2 w-[400px] h-[400px] rounded-lg"
             priority
           />
         ))}
@@ -56,7 +56,7 @@ const MarqueeList = () => {
             alt={`Cat ${index + 13}`}
             width={400}
             height={400}
-            className="mx-2 w-[400px] h-[400px]"
+            className="mx-2 w-[400px] h-[400px] rounded-lg"
             priority
           />
         ))}
