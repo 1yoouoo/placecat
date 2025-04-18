@@ -4,7 +4,6 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
-    # 수동으로 실행할 수 있도록 워크플로우 디스패치 추가
 
 jobs:
   deploy:
@@ -35,13 +34,17 @@ jobs:
       run: |
         mkdir -p ~/.ssh
         ssh-keyscan -H 188.166.209.37 >> ~/.ssh/known_hosts
-        # Test SSH connection with verbose output
         ssh -v root@188.166.209.37 'echo "SSH connection successful"'
+    
+    - name: Find npm on remote server
+      run: |
+        echo "Finding npm on remote server..."
+        ssh root@188.166.209.37 'which npm || find / -name npm -type f 2>/dev/null || echo "npm not found"'
     
     - name: Deploy to DigitalOcean
       run: |
         echo "Starting deployment with rsync..."
         rsync -avz --delete --exclude='.git' --exclude='node_modules' ./ root@188.166.209.37:/root/placecat/
         
-        echo "Running commands on remote server..."
-        ssh root@188.166.209.37 'cd /root/placecat && npm ci && npm run build && (pm2 restart placecat || pm2 start npm --name "placecat" -- start)'
+        echo "Running commands on remote server with source profile..."
+        ssh root@188.166.209.37 'source /root/.bashrc && source /root/.profile && cd /root/placecat && export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && npm ci && npm run build && (pm2 restart placecat || pm2 start npm --name "placecat" -- start)'
