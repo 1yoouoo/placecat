@@ -25,26 +25,41 @@ jobs:
     - name: Build
       run: npm run build
     
-    - name: Setup SSH
-      uses: webfactory/ssh-agent@v0.8.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Debug SSH key
+      run: |
+        if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+          echo "SSH_PRIVATE_KEY is not set or empty"
+          exit 1
+        else
+          echo "SSH_PRIVATE_KEY is set"
+        fi
+
+    - name: Install SSH client
+      run: sudo apt-get install -y openssh-client
     
-    - name: Add host key and test SSH connection
+    - name: Setup SSH with debug
       run: |
         mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H 188.166.209.37 >> ~/.ssh/known_hosts
-        ssh -v root@188.166.209.37 'echo "SSH connection successful"'
+        echo "SSH files permissions:"
+        ls -la ~/.ssh/
+    
+    - name: Test SSH connection with increased verbosity
+      run: |
+        ssh -vvv -o StrictHostKeyChecking=no root@188.166.209.37 'echo "SSH connection successful"'
     
     - name: Prepare remote server directory
       run: |
-        ssh root@188.166.209.37 'mkdir -p /root/placecat'
+        ssh -o StrictHostKeyChecking=no root@188.166.209.37 'mkdir -p /root/placecat'
     
     - name: Deploy to DigitalOcean
       run: |
         echo "Starting deployment with rsync..."
         # 필수 파일 및 빌드된 결과물만 전송
         rsync -avz --delete \
+          -e "ssh -o StrictHostKeyChecking=no" \
           --include=".next/***" \
           --include="public/***" \
           --include="package.json" \
@@ -58,7 +73,7 @@ jobs:
           ./ root@188.166.209.37:/root/placecat/
         
         echo "Starting application on remote server..."
-        ssh root@188.166.209.37 'export NVM_DIR="$HOME/.nvm" && 
+        ssh -o StrictHostKeyChecking=no root@188.166.209.37 'export NVM_DIR="$HOME/.nvm" && 
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && 
         nvm use 20 && 
         cd /root/placecat && 
