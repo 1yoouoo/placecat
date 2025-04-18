@@ -26,16 +26,16 @@ const Home = () => {
             <div className="space-y-12">
               <div className="flex flex-col items-center justify-center">
                 <p className="text-gray-300 mb-4">The size can be specified using the format width x height:</p>
-                <RippleButton rippleColor="#ADD8E6" textToCopy="https://placecat.1yoouoo.com/400/600/png">
-                  https://placecat.1yoouoo.com/400/600/png
+                <RippleButton rippleColor="#ADD8E6" textToCopy="https://placecat.1yoouoo.com/400/600">
+                  https://placecat.1yoouoo.com/400/600
                 </RippleButton>
               </div>
 
               <div className="flex flex-col items-center justify-center">
                 <h3 className="text-xl font-semibold mb-3 text-gray-200">Square Images</h3>
                 <p className="text-gray-300 mb-4">Specifying the height is optional, useful for creating a square:</p>
-                <RippleButton rippleColor="#ADD8E6" textToCopy="https://placecat.1yoouoo.com/400/png">
-                  https://placecat.1yoouoo.com/400/png
+                <RippleButton rippleColor="#ADD8E6" textToCopy="https://placecat.1yoouoo.com/400">
+                  https://placecat.1yoouoo.com/400
                 </RippleButton>
               </div>
 
