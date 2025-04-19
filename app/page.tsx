@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div className="py-24">
       <header className="mb-16 text-center">
-        <h1 className="text-8xl font-bold mb-4 text-gray-100">TEST</h1>
+        <h1 className="text-8xl font-bold mb-4 text-gray-100">Placecat</h1>
         <p className="text-xl text-gray-300">A cat image placeholder service. Simple, fast, and free.</p>
       </header>
 

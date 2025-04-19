@@ -5,6 +5,7 @@ git stash
 # 최신 코드 가져오기
 git pull
 
+echo "nvm 버전 설정 중..."
 nvm use 20
 
 echo "npm 패키지 설치 중..."
