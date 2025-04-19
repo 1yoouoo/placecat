@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from 'next/og';
+import { CAT_NUMBER } from '../constants/cat_number';
 
 // 이미지를 렌더링하는 함수
 export async function renderImageResponse(
@@ -220,7 +221,7 @@ export async function renderImageResponse(
 }
 
 // 랜덤 고양이 이미지 URL 생성 함수
-export function getRandomCatImageUrl(total: number = 8000): string {
+export function getRandomCatImageUrl(total: number = CAT_NUMBER): string {
   const randomNumber = Math.floor(Math.random() * total) + 1;
   const formattedNumber = randomNumber.toString().padStart(6, '0');
   return `https://placecat.sgp1.cdn.digitaloceanspaces.com/placecat/cat_${formattedNumber}.jpg`;

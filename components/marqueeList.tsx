@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { Marquee } from './magicui/marquee';
 import Image from 'next/image';
+import { CAT_NUMBER } from '@/app/constants/cat_number';
 
 const MarqueeList = () => {
   const [catImages, setCatImages] = useState<string[]>([]);
@@ -11,7 +12,7 @@ const MarqueeList = () => {
   useEffect(() => {
     const newImages = [];
     for (let i = 0; i < 18; i++) {
-      const randomNum = Math.floor(Math.random() * 10000) + 1;
+      const randomNum = Math.floor(Math.random() * CAT_NUMBER) + 1;
       const formattedNum = randomNum.toString().padStart(6, '0');
       newImages.push(`https://placecat.sgp1.cdn.digitaloceanspaces.com/placecat/cat_${formattedNum}.jpg`);
       setCatImages(newImages);
