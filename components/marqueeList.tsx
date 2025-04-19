@@ -19,16 +19,16 @@ const MarqueeList = () => {
   }, []);
 
   return (
-    <div className="space-y-6 flex flex-col items-center">
+    <div className="space-y-4 flex flex-col items-center">
       <Marquee pauseOnHover>
         {catImages.slice(0, 6).map((img, index) => (
           <Image
             key={`row1-${index}`}
             src={img}
             alt={`Cat ${index + 1}`}
-            width={400}
-            height={400}
-            className="mx-2 w-[400px] h-[400px] rounded-lg"
+            width={384}
+            height={216}
+            className="mx-2 w-[384px] h-[216px] rounded-sm"
             priority
           />
         ))}
@@ -40,9 +40,9 @@ const MarqueeList = () => {
             key={`row2-${index}`}
             src={img}
             alt={`Cat ${index + 7}`}
-            width={400}
-            height={400}
-            className="mx-2 w-[400px] h-[400px] rounded-lg"
+            width={384}
+            height={216}
+            className="mx-2 w-[384px] h-[216px] rounded-sm"
             priority
           />
         ))}
@@ -54,9 +54,9 @@ const MarqueeList = () => {
             key={`row3-${index}`}
             src={img}
             alt={`Cat ${index + 13}`}
-            width={400}
-            height={400}
-            className="mx-2 w-[400px] h-[400px] rounded-lg"
+            width={384}
+            height={216}
+            className="mx-2 w-[384px] h-[216px] rounded-sm"
             priority
           />
         ))}

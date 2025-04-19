@@ -1,12 +1,13 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 import React, { MouseEvent, useEffect, useState } from 'react';
 
 interface RippleButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   rippleColor?: string;
   duration?: string;
-  textToCopy?: string;
+  textToCopy: string;
 }
 
 export const RippleButton = React.forwardRef<HTMLButtonElement, RippleButtonProps>(
@@ -15,6 +16,7 @@ export const RippleButton = React.forwardRef<HTMLButtonElement, RippleButtonProp
     const [isCopied, setIsCopied] = useState(false);
 
     const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
       createRipple(event);
 
       if (textToCopy) {
@@ -50,27 +52,35 @@ export const RippleButton = React.forwardRef<HTMLButtonElement, RippleButtonProp
     return (
       <button
         className={cn(
-          'relative flex cursor-pointer items-center justify-center overflow-hidden rounded-lg border-2 bg-background px-6 py-4 text-center text-primary text-lg',
+          'relative flex cursor-pointer items-center justify-center overflow-hidden rounded-sm border-1 bg-background text-center text-primary text-lg',
           className,
         )}
         onClick={handleClick}
         ref={ref}
         {...props}
       >
-        <div className="relative z-10 flex items-center gap-4">
-          {children}
+        <div className="relative z-10 flex items-center">
+          <Link
+            href={textToCopy}
+            className="px-6 py-4"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {children}
+          </Link>
 
-          <div className="flex items-center w-6 ml-3 justify-center">
+          <div className="flex items-center w-14 h-16 justify-center bg-gray-800">
             {textToCopy &&
               (isCopied ? (
-                <span className="text-xs text-green-500">Copied!</span>
+                <span className="text-xs text-white">Copied!</span>
               ) : (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke="currentColor"
+                  stroke="white"
                 >
                   <path
                     strokeLinecap="round"
@@ -82,7 +92,8 @@ export const RippleButton = React.forwardRef<HTMLButtonElement, RippleButtonProp
               ))}
           </div>
         </div>
-        <span className="pointer-events-none absolute inset-0">
+
+        <span className="pointer-events-none inset-0">
           {buttonRipples.map((ripple) => (
             <span
               className="absolute animate-rippling rounded-full bg-background opacity-30"

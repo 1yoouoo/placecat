@@ -16,7 +16,7 @@ const Home = () => {
           <MarqueeList />
         </section>
 
-        <section className="flex flex-col items-center justify-center gap-24 mt-30 mb-80">
+        <section className="flex flex-col items-center justify-center gap-24 mt-30 mb-80 border-t border-gray-700 pt-16">
           <Document />
         </section>
       </main>
